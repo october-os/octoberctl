@@ -8,6 +8,7 @@ import (
 	"github.com/go-git/go-git/v5/plumbing"
 )
 
+// Updates the October Linux configuration.
 func Update(force bool) error {
 	fmt.Println("Updating October configuration...")
 
@@ -26,13 +27,13 @@ func Update(force bool) error {
 		return err
 	}
 
-	found, err := checkForChangesGit(workTree)
+	found, err := checkForLocalChanges(workTree)
 	if err != nil {
 		return err
 	}
 
 	if found && !force {
-		fmt.Println("The configuration was modified. Use 'octoberctl update -f' to override the changes.")
+		fmt.Println("Local changes were found in the configuration. Use 'octoberctl update -f' to override them.")
 		return nil
 	}
 
@@ -44,6 +45,23 @@ func Update(force bool) error {
 	return nil
 }
 
+// Checks for local changes in the October Linux configuration.
+// Returns found = true if local changes are found and vice versa
+func checkForLocalChanges(workTree *git.Worktree) (found bool, err error) {
+	status, err := workTree.Status()
+	if err != nil {
+		return false, err
+	}
+	for _, value := range status {
+		if value.Staging != git.Unmodified || value.Worktree != git.Modified {
+			return true, nil
+		}
+	}
+	return false, nil
+}
+
+// Pulls the latest version of the October Linux configuration.
+// /!\ Overrides local changes
 func pull(repository *git.Repository, workTree *git.Worktree) error {
 	if err := repository.Fetch(&git.FetchOptions{Progress: os.Stdout}); err != nil {
 		return err
@@ -59,17 +77,4 @@ func pull(repository *git.Repository, workTree *git.Worktree) error {
 	}
 
 	return nil
-}
-
-func checkForChangesGit(workTree *git.Worktree) (found bool, err error) {
-	status, err := workTree.Status()
-	if err != nil {
-		return false, err
-	}
-	for _, value := range status {
-		if value.Staging != git.Unmodified || value.Worktree != git.Modified {
-			return true, nil
-		}
-	}
-	return false, nil
 }
