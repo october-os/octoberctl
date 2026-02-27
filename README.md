@@ -1,1 +1,1 @@
-# octoberctl
+# The official October Linux management utility
