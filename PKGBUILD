@@ -1,7 +1,7 @@
 # Maintainer: Arianne <arianne@arianne.dev>
 # Maintainer: Elliott Fournier-Robert <elliott1447@gmail.com>
 
-pkgname=octoberctl
+pkgname=octoberctl-bin
 pkgver=1.0
 pkgrel=1
 sha256sums=('67423e1cbd63ae208e7934cace1493cb1d1f2995dfd61a7f8def00475202fa51')
