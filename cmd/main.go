@@ -35,7 +35,7 @@ func main() {
 	case "update":
 		updateFlagSet.Parse(subArgs)
 		if err := update.Update(*forcePtr); err != nil {
-			fmt.Printf("failed to update: %s", err.Error())
+			fmt.Printf("failed to update: %s\n", err.Error())
 			os.Exit(1)
 		}
 	default:
