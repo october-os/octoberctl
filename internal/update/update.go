@@ -3,9 +3,9 @@ package update
 import (
 	"fmt"
 	"os"
+	"os/exec"
 
 	"github.com/go-git/go-git/v5"
-	"github.com/go-git/go-git/v5/plumbing"
 )
 
 // Updates the October Linux configuration.
@@ -17,7 +17,9 @@ func Update(force bool) error {
 		return err
 	}
 
-	repository, err := git.PlainOpen(fmt.Sprintf("%s/october-config", userConfigDir))
+	octoberConfigDir := fmt.Sprintf("%s/october-config", userConfigDir)
+
+	repository, err := git.PlainOpen(octoberConfigDir)
 	if err != nil {
 		return err
 	}
@@ -37,7 +39,7 @@ func Update(force bool) error {
 		return nil
 	}
 
-	if err := pull(repository, workTree); err != nil {
+	if err := pull(repository, octoberConfigDir); err != nil {
 		return err
 	}
 
@@ -61,20 +63,16 @@ func checkForLocalChanges(workTree *git.Worktree) (found bool, err error) {
 }
 
 // Pulls the latest version of the October Linux configuration.
-// /!\ Overrides local changes
-func pull(repository *git.Repository, workTree *git.Worktree) error {
+// /!\ Overrides local changes on tracked files
+func pull(repository *git.Repository, octoberConfigPath string) error {
 	if err := repository.Fetch(&git.FetchOptions{Progress: os.Stdout}); err != nil {
 		return err
 	}
 
-	remoteMain, err := repository.Reference(plumbing.NewRemoteReferenceName("origin", "main"), true)
-	if err != nil {
-		return err
-	}
+	// Using the cmd version since go-git hard reset removes
+	// untracked files.
+	cmd := exec.Command("git", "reset", "--hard", "origin/main")
+	cmd.Dir = octoberConfigPath
 
-	if err := workTree.Reset(&git.ResetOptions{Mode: git.HardReset, Commit: remoteMain.Hash()}); err != nil {
-		return err
-	}
-
-	return nil
+	return cmd.Run()
 }
