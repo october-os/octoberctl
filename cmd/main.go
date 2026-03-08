@@ -17,6 +17,7 @@ var wallpaperFlagSet *flag.FlagSet
 var listWalls bool
 var addWall string
 var removeWall string
+var showWall string
 
 // Inits all the flags, args of the program and help messages.
 func initFlags() {
@@ -27,6 +28,7 @@ func initFlags() {
 	wallpaperFlagSet.BoolVar(&listWalls, "l", false, "List all wallpapers")
 	wallpaperFlagSet.StringVar(&addWall, "a", "", "Add a wallpaper")
 	wallpaperFlagSet.StringVar(&removeWall, "r", "", "Remove a wallpaper")
+	wallpaperFlagSet.StringVar(&showWall, "s", "", "Show a wallpaper with kitten icat")
 
 	flag.Usage = func() {
 		mainHelpMessageHeader()
@@ -64,7 +66,7 @@ func main() {
 		}
 	case "wallpaper":
 		wallpaperFlagSet.Parse(subArgs)
-		if err := wallpaper.WallpaperArgParser(listWalls, addWall, removeWall); err != nil {
+		if err := wallpaper.WallpaperArgParser(listWalls, addWall, removeWall, showWall); err != nil {
 			fmt.Println(err.Error())
 			os.Exit(3)
 		}
@@ -89,6 +91,6 @@ func updateHelpMessageHeader() {
 
 // Prints the help message for 'wallpaper' command.
 func wallpaperHelpMessageHeader() {
-	fmt.Print("usage: octoberctl wallpaper [-l] [-a <path>] [-r <file name>]\n\n")
+	fmt.Print("usage: octoberctl wallpaper [-l] [-a <path>] [-r <file name>] [-s <file name>]\n\n")
 	fmt.Println("args:")
 }
