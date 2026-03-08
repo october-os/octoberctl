@@ -9,6 +9,7 @@ import (
 	"github.com/blacktop/go-termimg"
 )
 
+// Absolute path to the wallpapers folder.
 var octoberWallDir string = fmt.Sprintf("%s/.config/october-config/wallpapers", os.Getenv("HOME"))
 
 // ArgParser Parses the arguments given to the wallpaper flag.
