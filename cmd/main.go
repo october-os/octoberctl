@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/october-os/octoberctl/internal/update"
+	"github.com/october-os/octoberctl/internal/wallpaper"
 )
 
 var updateFlagSet *flag.FlagSet
@@ -63,6 +64,10 @@ func main() {
 		}
 	case "wallpaper":
 		wallpaperFlagSet.Parse(subArgs)
+		if err := wallpaper.WallpaperArgParser(listWalls, addWall, removeWall); err != nil {
+			fmt.Println(err.Error())
+			os.Exit(3)
+		}
 	default:
 		fmt.Printf("error: unknown command '%s'\n", os.Args[1])
 	}
