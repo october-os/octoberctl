@@ -66,7 +66,7 @@ func main() {
 		}
 	case "wallpaper":
 		wallpaperFlagSet.Parse(subArgs)
-		if err := wallpaper.WallpaperArgParser(listWalls, addWall, removeWall, showWall); err != nil {
+		if err := wallpaper.ArgParser(listWalls, addWall, removeWall, showWall); err != nil {
 			fmt.Println(err.Error())
 			os.Exit(3)
 		}
