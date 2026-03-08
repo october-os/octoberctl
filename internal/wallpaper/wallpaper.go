@@ -21,6 +21,12 @@ func WallpaperArgParser(listWalls bool, addWall, removeWall string) error {
 		}
 	}
 
+	if removeWall != "" {
+		if err := removeWallpaper(removeWall); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -39,7 +45,7 @@ func addWallpaper(src string) error {
 
 	dest := fmt.Sprintf("%s/%s", octoberWallDir, fileInStat.Name())
 	if fileExist(dest) {
-		return fmt.Errorf("File %s already exist in wallpapers folder", fileInStat.Name())
+		return fmt.Errorf("File %s already exist in the wallpapers folder", fileInStat.Name())
 	}
 
 	fileOut, err := os.Create(dest)
@@ -52,8 +58,13 @@ func addWallpaper(src string) error {
 	return err
 }
 
-func removeWallpaper(wall string) {
+func removeWallpaper(wall string) error {
+	absPath := fmt.Sprintf("%s/%s", octoberWallDir, wall)
+	if !fileExist(absPath) {
+		return fmt.Errorf("Wallpaper %s doesn't exist in the wallpapers folder", wall)
+	}
 
+	return os.Remove(absPath)
 }
 
 func listWallpapers() error {
