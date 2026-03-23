@@ -88,15 +88,6 @@ func main() {
 	}
 }
 
-// Prints the main help message header.
-func mainHelpMessageHeader() {
-	fmt.Print("usage: octoberctl <command> [<args>]\n\n")
-	fmt.Println("commands:")
-	fmt.Println("\tupdate\t\tUpdate the October Linux configuration")
-	fmt.Println("\twallpaper\tManage wallpapers")
-	fmt.Println("\tpfp\t\tManage the profile picture")
-}
-
 // Handles the operations for the wallpaper flag set.
 func handleWallpaper(subArgs []string) {
 	if len(subArgs) == 0 {
@@ -123,6 +114,15 @@ func handlePfp(subArgs []string) {
 		fmt.Println(err.Error())
 		os.Exit(4)
 	}
+}
+
+// Prints the main help message header.
+func mainHelpMessageHeader() {
+	fmt.Print("usage: octoberctl <command> [<args>]\n\n")
+	fmt.Println("commands:")
+	fmt.Println("\tupdate\t\tUpdate the October Linux configuration")
+	fmt.Println("\twallpaper\tManage wallpapers")
+	fmt.Println("\tpfp\t\tManage the profile picture")
 }
 
 // Prints the help message for the 'update' command.
