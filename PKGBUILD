@@ -4,7 +4,7 @@
 pkgname=octoberctl-bin
 pkgver=1.3
 pkgrel=1
-sha256sums=('2a2988e9466c6b622805ec98c139198f5eac53bf91546111adc8ed7a5bf90155')
+sha256sums=('17044fe2d583dcc4162f8fd62c67ba7253c642e5f43808337c35c6853df6ae3e')
 depends=(
     'git'
 )
