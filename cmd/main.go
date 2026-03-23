@@ -102,7 +102,7 @@ func mainHelpMessageHeader() {
 	fmt.Println("commands:")
 	fmt.Println("\tupdate\t\tUpdate the October Linux configuration")
 	fmt.Println("\twallpaper\tManage wallpapers in the wallpapers folder")
-	fmt.Println("\tpfp\tManage the profile picture")
+	fmt.Println("\tpfp\t\tManage the profile picture")
 }
 
 // Prints the help message for the 'update' command.

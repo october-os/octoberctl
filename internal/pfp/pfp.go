@@ -12,6 +12,7 @@ import (
 // Absolute path to pfp.
 var octoberPfp string = fmt.Sprintf("%s/.config/october-config/profile_picture.jpg", os.Getenv("HOME"))
 
+// Argument parser for the pfp flag.
 func ArgParser(peek, remove bool, set string) error {
 	if peek {
 		if err := utils.Show(octoberPfp); err != nil {
@@ -34,6 +35,8 @@ func ArgParser(peek, remove bool, set string) error {
 	return nil
 }
 
+// Removes the profile picture from the
+// configuration.
 func removePfp() error {
 	if err := utils.Remove(octoberPfp); err != nil {
 		return fmt.Errorf("couldn't remove profile picture")
@@ -42,6 +45,7 @@ func removePfp() error {
 	return nil
 }
 
+// Sets the pfp for the given jpg file.
 func setPfp(pfp string) error {
 	if !utils.FileExist(pfp) || !strings.Contains(pfp, ".jpg") {
 		return fmt.Errorf("file %s does not exist or isn't a jpg", pfp)
