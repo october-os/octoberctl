@@ -80,17 +80,9 @@ func main() {
 			os.Exit(1)
 		}
 	case "wallpaper":
-		wallpaperFlagSet.Parse(subArgs)
-		if err := wallpaper.ArgParser(listWalls, addWall, removeWall, showWall); err != nil {
-			fmt.Println(err.Error())
-			os.Exit(3)
-		}
+		handleWallpaper(subArgs)
 	case "pfp":
-		pfpFlagSet.Parse(subArgs)
-		if err := pfp.ArgParser(peekPfp, removePfp, setPfp); err != nil {
-			fmt.Println(err.Error())
-			os.Exit(4)
-		}
+		handlePfp(subArgs)
 	default:
 		fmt.Printf("error: unknown command '%s'\n", os.Args[1])
 	}
@@ -101,8 +93,36 @@ func mainHelpMessageHeader() {
 	fmt.Print("usage: octoberctl <command> [<args>]\n\n")
 	fmt.Println("commands:")
 	fmt.Println("\tupdate\t\tUpdate the October Linux configuration")
-	fmt.Println("\twallpaper\tManage wallpapers in the wallpapers folder")
+	fmt.Println("\twallpaper\tManage wallpapers")
 	fmt.Println("\tpfp\t\tManage the profile picture")
+}
+
+// Handles the operations for the wallpaper flag set.
+func handleWallpaper(subArgs []string) {
+	if len(subArgs) == 0 {
+		wallpaperFlagSet.Usage()
+		os.Exit(2)
+	}
+
+	wallpaperFlagSet.Parse(subArgs)
+	if err := wallpaper.ArgParser(listWalls, addWall, removeWall, showWall); err != nil {
+		fmt.Println(err.Error())
+		os.Exit(3)
+	}
+}
+
+// Handles the operations for the pfp flag set.
+func handlePfp(subArgs []string) {
+	if len(subArgs) == 0 {
+		pfpFlagSet.Usage()
+		os.Exit(2)
+	}
+
+	pfpFlagSet.Parse(subArgs)
+	if err := pfp.ArgParser(peekPfp, removePfp, setPfp); err != nil {
+		fmt.Println(err.Error())
+		os.Exit(4)
+	}
 }
 
 // Prints the help message for the 'update' command.
